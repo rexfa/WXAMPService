@@ -19,7 +19,7 @@ namespace WXAMPService
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls()
+                .UseUrls("http://*:5000")
                 .UseStartup<Startup>();
     }
 }
