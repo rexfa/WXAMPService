@@ -46,7 +46,7 @@ namespace WXAMPService
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
             //将置于docker容器内，所以不希望强制使用https
             //app.UseHttpsRedirection();
