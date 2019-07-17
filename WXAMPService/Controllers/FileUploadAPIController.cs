@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net;
 using WXAMPService.Infrastructures;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,6 +17,12 @@ namespace WXAMPService.Controllers
     [Route("api/[controller]")]
     public class FileUploadAPIController : Controller
     {
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public FileUploadAPIController(IHostingEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
         // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -38,12 +45,15 @@ namespace WXAMPService.Controllers
             long size = files.Sum(f => f.Length);
 
             // full path to file in temp location
-            var filePath = Path.GetTempFileName();
-            var dirPath = AppContext.BaseDirectory;
+            //var filePath = Path.GetTempFileName();
+            string filePath = "";
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            string imagesDir = webRootPath+@"/uploaddir/images/";
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0)
                 {
+                    filePath = imagesDir + formFile.FileName;
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(stream);

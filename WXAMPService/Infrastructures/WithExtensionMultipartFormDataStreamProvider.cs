@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace WXAMPService.Infrastructures
 {
+    /// <summary>
+    /// 本来是上传用的，现在用不到了
+    /// </summary>
+    [Obsolete]
     public class WithExtensionMultipartFormDataStreamProvider : MultipartFormDataStreamProvider
     {
         public string guid { get; set; }
