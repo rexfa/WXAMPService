@@ -9,6 +9,7 @@ using System.Net;
 using WXAMPService.Infrastructures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using WXAMPService.Infrastructures;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,22 +50,30 @@ namespace WXAMPService.Controllers
             string filePath = "";
             string webRootPath = _hostingEnvironment.WebRootPath;
             string imagesDir = webRootPath+@"/uploaddir/images/";
-            foreach (var formFile in files)
+            try
             {
-                if (formFile.Length > 0)
+                foreach (var formFile in files)
                 {
-                    filePath = imagesDir + formFile.FileName;
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    if (formFile.Length > 0)
                     {
-                        await formFile.CopyToAsync(stream);
+                        filePath = imagesDir + formFile.FileName;
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {                            
+                            await formFile.CopyToAsync(stream);
+                        }                   
+                        SySImageHandle.NormalizationImageAndSave(filePath);
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                var data = new { message = ex.Message, filePath="", size="" };
+                return Json(data);
+            }
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
 
-            return Ok(new { count = files.Count, size, filePath });
+            return Ok(new { message = "Success", count = files.Count, size, filePath });
         }
 
         // PUT api/<controller>/5

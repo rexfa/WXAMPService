@@ -36,9 +36,11 @@ $('#submit').on('click', function (e) {
                 processData: false,
                 data: data,
                 success: function (result) {
-                    alert(result.filePath + " - " +result.size);
+                    console.log(result.message);
+                    alert(result.message+" : "+result.filePath + " - " +result.size);
                 },
                 error: function (xhr, status, p3) {
+                    console.log(status);
                     alert(status);
                  }
             });

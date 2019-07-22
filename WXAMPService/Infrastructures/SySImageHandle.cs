@@ -31,6 +31,24 @@ namespace WXAMPService.Infrastructures
             image = CutAndResizeImage(image, TargetScale);
             return image;
         }
+        public static void NormalizationImageAndSave(string fileDir)
+        {
+            FileStream fileStream = null;
+            try
+            {
+                fileStream = File.Open(fileDir, FileMode.Open);
+                Image<Rgba32> image = Image.Load(fileStream);
+                image = CutAndResizeImage(image, TargetScale);
+                image.SaveAsPng(fileStream);
+            }
+            catch (Exception ex)
+            { }
+            finally
+            {
+                fileStream.Close();
+            }
+            return;
+        }
         public static Image<Rgba32> CutAndResizeImage(Image<Rgba32> image, float scale)
         {
             int width = image.Width;
@@ -100,7 +118,7 @@ namespace WXAMPService.Infrastructures
                     height = image.Height;
                 }
             }
-            image.Mutate(i => i.Crop(new Rectangle(x, y, width, height)));
+            image.Mutate(i => i.Crop(new Rectangle(x, y, width, height)).Grayscale());
             return image;
      
         }
