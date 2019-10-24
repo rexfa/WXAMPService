@@ -25,7 +25,7 @@ namespace WXAMPService.Infrastructures
 
         public static Image<Rgba32> NormalizationImage(FileStream fileStream)
         {
-            Image<Rgba32> image = Image.Load(fileStream);
+            Image<Rgba32> image = Image.Load<Rgba32>(fileStream);
             int width = image.Width;
             int height = image.Height;
             image = CutAndResizeImage(image, TargetScale);
@@ -37,7 +37,7 @@ namespace WXAMPService.Infrastructures
             try
             {
                 fileStream = File.Open(fileDir, FileMode.Open);
-                Image<Rgba32> image = Image.Load(fileStream);
+                Image<Rgba32> image = Image.Load<Rgba32>(fileStream);
                 image = CutAndResizeImage(image, TargetScale);
                 image.SaveAsPng(fileStream);
             }

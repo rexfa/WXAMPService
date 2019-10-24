@@ -9,7 +9,6 @@ using System.Net;
 using WXAMPService.Infrastructures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
-using WXAMPService.Infrastructures;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
