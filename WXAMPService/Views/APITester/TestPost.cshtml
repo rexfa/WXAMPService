@@ -3,5 +3,76 @@
     ViewData["Title"] = "TestPost";
 }
 
-<h1>TestPost</h1>
+<h1>测试jspost功能</h1>
+<img id="image" src=""/>
+<input type="file" accept="image/png,image/jpeg" onchange="selectImage(this);"/>
+<input type="button" onclick="uploadImage();" value="上传"/>
+<script language="javascript">
+    var image = '';
+    function selectImage(file) {
+        if (!file.file || !file.file[0]) {
+            return;
+        }
+        else {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                document.getElementById('image').src = evt.target.result;
+                image = evt.target.result;
+            };
+        }
+    }
 
+    function uploadImage() {
+        $.ajax({
+            type: 'POST',
+            url: '/api/FileUploadAPI',
+            async: false,
+            data: {image:image},
+            dataType: 'json',
+            success: function (data) {
+                if (data.message) {
+                    alert('ok');
+                } else {
+                    alert('err');
+                }
+            },
+            error: function (err) {
+                alert('net err');
+            }
+        });
+    }
+    function uploadForImage(url, data, callback, token) {//data是文件对象
+        let xhr = new XMLHttpRequest();
+        let form = new FormData();
+        form.append('file', data);
+        function uploadProgress(e) {
+            if (e.lengthComputable) {
+                let progress = Math.round((e.loaded / e.total) * 100);
+                callback(progress);
+            }
+        }
+        /*
+        * 监听请求的进度并在回调中传入进度参数*/
+        xhr.upload.addEventListener('progress', uploadProgress, false);  // 第三个参数为useCapture?，是否使用事件捕获/冒泡
+        /*
+        * 监听readyState的变化，完成时回调后端返回的response
+        * */
+        xhr.addEventListener('readystatechange', function (e) {
+            console.log(e);
+            let response = e.currentTarget.response ? JSON.parse(e.currentTarget.response) : null;
+            if (e.currentTarget.readyState === 4 && response) {
+                callback(100, response);
+                xhr.upload.removeEventListener('progress', uploadProgress, false)
+            }
+        }, false);
+
+        xhr.open('POST', url, true);  // 第三个参数为async?，异步/同步
+        xhr.setRequestHeader("accessToken", token);
+        xhr.send(form);
+    }
+
+    export default {
+        uploadForImage: uploadForImage//原生js开始上传并监听上传进度
+    };
+</script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -72,7 +72,7 @@ namespace WXAMPService.Controllers
             // process uploaded files
             // Don't rely on or trust the FileName property without validation.
 
-            return Ok(new { message = "Success", count = files.Count, size, filePath });
+            return Ok(new { message = "ok", count = files.Count, size, filePath });
         }
 
         // PUT api/<controller>/5
