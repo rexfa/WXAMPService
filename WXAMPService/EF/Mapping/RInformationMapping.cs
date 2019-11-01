@@ -13,9 +13,11 @@ namespace WXAMPService.EF.Mapping
             builder.HasKey(x => x.Id);
             builder.Property(x => x.username).IsRequired().HasMaxLength(20);
             builder.Property(x => x.wxname).IsRequired().HasMaxLength(20);
+            builder.Property(x => x.userpic).IsRequired().HasMaxLength(30);
             builder.Property(x => x.wxid).IsRequired().HasMaxLength(20);
             builder.Property(x => x.rank).IsRequired();
             builder.Property(x => x.votes).IsRequired();
+            builder.Property(x => x.createdOn).IsRequired();
         }
     }
 }

@@ -23,7 +23,6 @@ namespace WXAMPService.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            //optionsBuilder.UseMySql(@"Server=mysql.rex.me;database=rex;uid=root;pwd=");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

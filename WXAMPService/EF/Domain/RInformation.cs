@@ -1,4 +1,5 @@
-﻿using WXAMPService.EF;
+﻿using System;
+using WXAMPService.EF;
 
 namespace WXAMPService.EF.Domain
 {
@@ -10,6 +11,8 @@ namespace WXAMPService.EF.Domain
         public string userinfo { get; set; }
         public int rank { get; set; }
         public int votes { get; set; }
+        public string userpic { get; set; }
+        public DateTime createdOn { get; set; }
 
     }
 }
