@@ -9,6 +9,7 @@ using System.Net;
 using WXAMPService.Infrastructures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Newtonsoft.Json.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,6 +42,8 @@ namespace WXAMPService.Controllers
         [HttpPost]
         public async Task<IActionResult> Post()
         {
+            JObject returnJson = new JObject();
+            string messgae = Request.Form["message"];
             var files = Request.Form.Files;
             long size = files.Sum(f => f.Length);
 

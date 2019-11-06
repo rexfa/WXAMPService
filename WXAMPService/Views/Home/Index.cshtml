@@ -12,7 +12,11 @@
 </div>
 
 <div>
-    <input type="file" name="upload" id="uploadFile" /><br />
+    <input type="text" name="username" id="username" /><br />
+    <input type="text" name="wxid" id="wxid" /><br />
+    <input type="text" name="userinfo" id="userinfo" /><br />
+    <input type="text" name="message" id="message" /><br />
+    <input type="file" name="uploadFile" id="uploadFile" /><br />
     <button id="submit">上传</button>
 </div>
 
@@ -22,19 +26,22 @@
 $('#submit').on('click', function (e) {
     e.preventDefault();
     var files = document.getElementById('uploadFile').files;
+    var messageText = document.getElementById('message');
+    var message0 = messageText.value;
+    var formData = new FormData();
+    formData.append("message", message0);
     if (files.length > 0) {
         if (window.FormData !== undefined) {
-            var data = new FormData();
             for (var x = 0; x < files.length; x++) {
-                data.append("file" + x, files[x]);
-            }
-
+                formData.append("file" + x, files[x]);
+            };    
             $.ajax({
                 type: "POST",
                 url: '/api/FileUploadAPI',
                 contentType: false,
                 processData: false,
-                data: data,
+                dataType: "json",
+                data: formData,
                 success: function (result) {
                     console.log(result.message);
                     alert(result.message+" : "+result.filePath + " - " +result.size);
